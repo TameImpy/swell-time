@@ -464,6 +464,25 @@ select.invalid {
   color: #b32626;
 }
 
+/* ---- Testimonials ---- */
+.testimonial {
+  margin: 0;
+  border-left: 4px solid var(--sunset);
+}
+
+.testimonial p {
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.testimonial footer {
+  margin-top: auto;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 /* ---- Footer ---- */
 .site-footer {
   text-align: center;
