@@ -1,0 +1,489 @@
+/* =====================================================
+   Swell Time Surf School – styles
+   ===================================================== */
+
+/* ---- Design tokens (colours, spacing) ---- */
+:root {
+  --ocean: #0b6e99;
+  --ocean-dark: #084d6b;
+  --foam: #f4fbfd;
+  --sand: #f6e7c8;
+  --sunset: #ff7a45;
+  --ink: #17303d;
+  --muted: #5f7480;
+  --line: #d6e6ec;
+  --white: #ffffff;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(11, 110, 153, 0.12);
+  --max: 1080px;
+}
+
+/* ---- Reset & base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--foam);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+  font-weight: 900;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--ocean);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--sunset);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: #ff6a2e;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ocean-dark);
+  border-color: var(--ocean);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-small {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+/* ---- Header ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: rgba(244, 251, 253, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--ocean-dark);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.brand-mark {
+  font-size: 1.5rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.site-nav a:hover {
+  color: var(--ocean);
+}
+
+.nav-cta {
+  background: var(--ocean);
+  color: var(--white) !important;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+}
+
+/* ---- Hero ---- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--ocean) 0%, var(--ocean-dark) 100%);
+  color: var(--white);
+  padding: 5rem 1rem 7rem;
+}
+
+.hero-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.lead {
+  max-width: 34rem;
+  font-size: 1.15rem;
+  opacity: 0.95;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.hero .btn-ghost {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* A soft wave shape at the bottom of the hero */
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 70px;
+  background: var(--foam);
+  clip-path: ellipse(60% 100% at 50% 100%);
+}
+
+/* ---- Sections ---- */
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+.section-alt {
+  max-width: none;
+  background: var(--sand);
+}
+
+.section-alt > * {
+  max-width: var(--max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-head {
+  margin-bottom: 2rem;
+}
+
+.section-head p {
+  color: var(--muted);
+}
+
+/* ---- Cards ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-icon {
+  font-size: 2rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+}
+
+.card .price {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ocean);
+}
+
+.card .price span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.card ul {
+  margin: 0.25rem 0 0.75rem;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.card .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--foam);
+  color: var(--ocean-dark);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--ocean);
+}
+
+/* ---- Conditions ---- */
+.conditions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ocean-dark);
+}
+
+.conditions-verdict {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ---- Booking ---- */
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+}
+
+.booking-form,
+.bookings-panel {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.field-row {
+  display: flex;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--foam);
+  color: var(--ink);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--ocean);
+  outline-offset: 1px;
+}
+
+input.invalid,
+select.invalid {
+  border-color: #d64545;
+}
+
+.price-preview {
+  font-size: 1.05rem;
+}
+
+.form-error {
+  color: #b32626;
+  font-weight: 700;
+  background: #fdeaea;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+}
+
+.form-success {
+  color: #1d6b3a;
+  font-weight: 700;
+  background: #e5f6ec;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+}
+
+.bookings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.booking-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.booking-item strong {
+  display: block;
+}
+
+.booking-item .muted {
+  font-size: 0.85rem;
+}
+
+.booking-remove {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+.booking-remove:hover {
+  color: #b32626;
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 760px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .field-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero {
+    padding: 3.5rem 1rem 5.5rem;
+  }
+}

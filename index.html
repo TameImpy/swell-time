@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swell Time Surf School</title>
+  <meta name="description" content="Learn to surf with Swell Time Surf School. Beginner, improver and private lessons on the beach every day." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Header / navigation ===== -->
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">🏄</span>
+      <span class="brand-name">Swell Time</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#lessons">Lessons</a>
+      <a href="#instructors">Instructors</a>
+      <a href="#conditions">Conditions</a>
+      <a href="#book" class="nav-cta">Book now</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">Beach-front surf school, open every day</p>
+        <h1>Catch your first wave this week.</h1>
+        <p class="lead">
+          Small groups, patient coaches and all the kit included. Whether you have never
+          touched a board or want to finally nail your turns, we will get you surfing.
+        </p>
+        <div class="hero-actions">
+          <a href="#book" class="btn btn-primary">Book a lesson</a>
+          <a href="#lessons" class="btn btn-ghost">See lessons &amp; prices</a>
+        </div>
+      </div>
+      <div class="wave" aria-hidden="true"></div>
+    </section>
+
+    <!-- ===== Lessons ===== -->
+    <section id="lessons" class="section">
+      <div class="section-head">
+        <h2>Lessons &amp; prices</h2>
+        <p>Every lesson includes wetsuit, board and a warm shower afterwards.</p>
+      </div>
+      <div id="lesson-grid" class="card-grid">
+        <!-- Lesson cards are rendered here by script.js -->
+      </div>
+    </section>
+
+    <!-- ===== Instructors ===== -->
+    <section id="instructors" class="section section-alt">
+      <div class="section-head">
+        <h2>Meet the coaches</h2>
+        <p>All of our instructors are ISA qualified and beach-lifeguard certified.</p>
+      </div>
+      <div id="instructor-grid" class="card-grid">
+        <!-- Instructor cards are rendered here by script.js -->
+      </div>
+    </section>
+
+    <!-- ===== Conditions ===== -->
+    <section id="conditions" class="section">
+      <div class="section-head">
+        <h2>Today's conditions</h2>
+        <p>A quick look at what the beach is doing right now.</p>
+      </div>
+      <div class="conditions">
+        <div class="stat">
+          <span class="stat-label">Wave height</span>
+          <span class="stat-value" id="cond-wave">–</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Wind</span>
+          <span class="stat-value" id="cond-wind">–</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Water temp</span>
+          <span class="stat-value" id="cond-temp">–</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Next high tide</span>
+          <span class="stat-value" id="cond-tide">–</span>
+        </div>
+      </div>
+      <p class="conditions-verdict" id="cond-verdict"></p>
+      <p class="muted small">Conditions shown are sample data for demonstration.</p>
+    </section>
+
+    <!-- ===== Booking ===== -->
+    <section id="book" class="section section-alt">
+      <div class="section-head">
+        <h2>Book a lesson</h2>
+        <p>Pick a lesson, tell us when, and we will hold your spot.</p>
+      </div>
+
+      <div class="booking-layout">
+        <form id="booking-form" class="booking-form" novalidate>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="lesson">Lesson</label>
+              <select id="lesson" name="lesson" required>
+                <!-- Options are filled in by script.js -->
+              </select>
+            </div>
+            <div class="field">
+              <label for="date">Date</label>
+              <input id="date" name="date" type="date" required />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="people">Number of surfers</label>
+              <input id="people" name="people" type="number" min="1" max="8" value="1" required />
+            </div>
+            <div class="field">
+              <label for="level">Experience</label>
+              <select id="level" name="level">
+                <option value="never">Never surfed</option>
+                <option value="few">A few lessons</option>
+                <option value="regular">Surf regularly</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="price-preview">Total: <strong id="price-total">£0</strong></p>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+
+          <button type="submit" class="btn btn-primary btn-block">Reserve my spot</button>
+        </form>
+
+        <aside class="bookings-panel">
+          <h3>Your bookings</h3>
+          <p class="muted small">Saved in this browser only.</p>
+          <ul id="bookings-list" class="bookings-list"></ul>
+          <p id="bookings-empty" class="muted">No bookings yet. Grab a board!</p>
+          <button id="clear-bookings" class="btn btn-ghost btn-small" type="button" hidden>Clear all</button>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Swell Time Surf School · The Slipway, Sandy Bay</p>
+    <p class="muted small">Open 8am to 6pm, seven days a week, March to November.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
