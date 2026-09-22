@@ -1,11 +1,12 @@
 /* =====================================================
    Swell Time Surf School – front-end logic
    -----------------------------------------------------
-   This file has four jobs:
+   This file has five jobs:
      1. Render the lesson and instructor cards from data.
      2. Show sample beach conditions.
      3. Handle the booking form (validate, price, save).
-     4. Show / remove saved bookings from localStorage.
+     4. Work out how many spots are left per lesson per day.
+     5. Show / remove saved bookings from localStorage.
    ===================================================== */
 
 // ---------- 1. Data ----------
@@ -18,6 +19,7 @@ const LESSONS = [
     tag: "Most popular",
     price: 45,
     duration: "2 hours",
+    capacity: 12,
     perks: ["Max 6 per coach", "Wetsuit & board included", "Stand up on day one"],
   },
   {
@@ -27,6 +29,7 @@ const LESSONS = [
     tag: "Level up",
     price: 55,
     duration: "2 hours",
+    capacity: 8,
     perks: ["Green-wave coaching", "Video feedback", "Max 4 per coach"],
   },
   {
@@ -36,6 +39,7 @@ const LESSONS = [
     tag: "One to one",
     price: 95,
     duration: "90 minutes",
+    capacity: 3,
     perks: ["Your own coach", "Tailored to your goals", "Any level welcome"],
   },
   {
@@ -45,6 +49,7 @@ const LESSONS = [
     tag: "Kids",
     price: 35,
     duration: "90 minutes",
+    capacity: 10,
     perks: ["Fun, safe & shallow", "Lifeguard on the beach", "Max 5 per coach"],
   },
 ];
@@ -87,6 +92,7 @@ function renderLessons() {
     link.addEventListener("click", () => {
       document.getElementById("lesson").value = link.dataset.lesson;
       updatePrice();
+      updateAvailability();
     });
   });
 }
@@ -201,6 +207,19 @@ function validateBooking(form) {
 
   const lesson = getLessonById(form.lesson.value);
 
+  // Capacity check comes last so `people` is already a sane number.
+  const left = spotsLeft(lesson.id, date);
+  if (people > left) {
+    const when = formatDate(date);
+    showError(
+      left === 0
+        ? `${lesson.name} is fully booked on ${when}. Try another day.`
+        : `Only ${left} spot${left === 1 ? "" : "s"} left for ${lesson.name} on ${when}.`,
+      form.people
+    );
+    return null;
+  }
+
   return {
     id: Date.now(),
     name,
@@ -214,7 +233,52 @@ function validateBooking(form) {
   };
 }
 
-// ---------- 4. Saved bookings (localStorage) ----------
+// ---------- 4. Availability ----------
+// Spots left are *derived* from the saved bookings every time we need them,
+// rather than stored as a separate counter. That way cancelling a booking
+// automatically frees its spots and nothing can drift out of sync.
+
+function bookedCount(lessonId, date) {
+  return loadBookings()
+    .filter((b) => b.lessonId === lessonId && b.date === date)
+    .reduce((sum, b) => sum + b.people, 0);
+}
+
+function spotsLeft(lessonId, date) {
+  const lesson = getLessonById(lessonId);
+  if (!lesson) return 0;
+  return Math.max(0, lesson.capacity - bookedCount(lessonId, date));
+}
+
+function updateAvailability() {
+  const box = document.getElementById("availability");
+  const lessonId = document.getElementById("lesson").value;
+  const date = document.getElementById("date").value;
+  const lesson = getLessonById(lessonId);
+
+  box.classList.remove("is-low", "is-full");
+
+  if (!lesson || !date) {
+    box.textContent = "Pick a date to see how many spots are left.";
+    return;
+  }
+
+  const left = spotsLeft(lessonId, date);
+  const when = formatDate(date);
+
+  if (left === 0) {
+    box.textContent = `Fully booked on ${when}. Try another day.`;
+    box.classList.add("is-full");
+  } else if (left <= 3 && left < lesson.capacity) {
+    // Urgent wording only once someone has actually taken a spot.
+    box.textContent = `Only ${left} of ${lesson.capacity} spots left on ${when}. Be quick!`;
+    box.classList.add("is-low");
+  } else {
+    box.textContent = `${left} of ${lesson.capacity} spots left on ${when}.`;
+  }
+}
+
+// ---------- 5. Saved bookings (localStorage) ----------
 
 function loadBookings() {
   try {
@@ -267,6 +331,7 @@ function renderBookings() {
       const remaining = loadBookings().filter((b) => String(b.id) !== btn.dataset.id);
       saveBookings(remaining);
       renderBookings();
+      updateAvailability();
     });
   });
 }
@@ -278,7 +343,7 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// ---------- 5. Wire everything up ----------
+// ---------- 6. Wire everything up ----------
 
 function init() {
   renderLessons();
@@ -287,6 +352,7 @@ function init() {
   populateLessonSelect();
   renderBookings();
   updatePrice();
+  updateAvailability();
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -294,8 +360,12 @@ function init() {
   document.getElementById("date").min = new Date().toISOString().slice(0, 10);
 
   const form = document.getElementById("booking-form");
-  form.lesson.addEventListener("change", updatePrice);
+  form.lesson.addEventListener("change", () => {
+    updatePrice();
+    updateAvailability();
+  });
   form.people.addEventListener("input", updatePrice);
+  form.date.addEventListener("change", updateAvailability);
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -308,11 +378,13 @@ function init() {
     form.reset();
     form.people.value = 1;
     updatePrice();
+    updateAvailability();
   });
 
   document.getElementById("clear-bookings").addEventListener("click", () => {
     saveBookings([]);
     renderBookings();
+    updateAvailability();
   });
 }
 

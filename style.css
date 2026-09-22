@@ -403,6 +403,21 @@ select.invalid {
   border-color: #d64545;
 }
 
+.availability {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.availability.is-low {
+  color: #b3600f;
+}
+
+.availability.is-full {
+  color: #b32626;
+}
+
 .price-preview {
   font-size: 1.05rem;
 }
@@ -470,13 +485,25 @@ select.invalid {
   border-left: 4px solid var(--sunset);
 }
 
+.testimonial blockquote {
+  margin: 0;
+}
+
 .testimonial p {
   font-size: 1.05rem;
   font-style: italic;
   margin-bottom: 0.75rem;
 }
 
-.testimonial footer {
+.testimonial p::before {
+  content: open-quote;
+}
+
+.testimonial p::after {
+  content: close-quote;
+}
+
+.testimonial figcaption {
   margin-top: auto;
   font-weight: 700;
   color: var(--muted);
